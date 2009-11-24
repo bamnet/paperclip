@@ -60,7 +60,7 @@ exclude_file_globs = ["test/s3.yml",
                       "test/tmp",
                       "test/tmp/*"]
 spec = Gem::Specification.new do |s| 
-  s.name              = "paperclip"
+  s.name              = "bamnet-paperclip"
   s.version           = Paperclip::VERSION
   s.author            = "Jon Yurek"
   s.email             = "jyurek@thoughtbot.com"
