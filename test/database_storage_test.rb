@@ -149,10 +149,10 @@ class DatabaseStorageTest < Test::Unit::TestCase
         assert !@dummy.avatar.exists?
       end
 
-      should "return its default_url" do
+      should "return blank url" do
         assert @dummy.avatar.to_file.nil?
-        assert_equal "/avatars/original/missing.png", @dummy.avatar.url
-        assert_equal "/avatars/blah/missing.png", @dummy.avatar.url(:blah)
+        assert @dummy.avatar.url.blank?
+        assert @dummy.avatar.url(:blah).blank?
       end
 
       should "return nil as path" do

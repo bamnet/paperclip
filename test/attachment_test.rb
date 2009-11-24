@@ -514,10 +514,10 @@ class AttachmentTest < Test::Unit::TestCase
       end
     end
 
-    should "return its default_url when no file assigned" do
+    should "return blank when no file assigned" do
       assert @attachment.to_file.nil?
-      assert_equal "/avatars/original/missing.png", @attachment.url
-      assert_equal "/avatars/blah/missing.png", @attachment.url(:blah)
+      assert @attachment.url.blank?
+      assert @attachment.url(:blah).blank?
     end
 
     should "return nil as path when no file assigned" do
