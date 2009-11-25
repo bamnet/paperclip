@@ -20,10 +20,14 @@ more detailed options.
 In your model:
 
   class User < ActiveRecord::Base
-    has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+    has_attached_file :avatar, :storage => :database
+    default_scope select_without_file_columns_for(:avatar) #If you're using the database storage engine 
   end
 
-In your migrations:
+Run:
+  ./script/generate migration DBPaperclip User avatar
+
+If you want to do it manually, migrate the following:
 
   class AddAvatarColumnsToUser < ActiveRecord::Migration
     def self.up
@@ -31,6 +35,7 @@ In your migrations:
       add_column :users, :avatar_content_type, :string
       add_column :users, :avatar_file_size,    :integer
       add_column :users, :avatar_updated_at,   :datetime
+      add_column :users, :avatar_file,         :binary
     end
 
     def self.down
@@ -38,6 +43,7 @@ In your migrations:
       remove_column :users, :avatar_content_type
       remove_column :users, :avatar_file_size
       remove_column :users, :avatar_updated_at
+      remove_column :users, :avatar_file
     end
   end
 
@@ -52,6 +58,8 @@ In your controller:
   def create
     @user = User.create( params[:user] )
   end
+
+  downloads_files_for :user, :avatar #Tosses in a simple download action
 
 In your show view:
 
@@ -89,6 +97,11 @@ file at
 
 NOTE: This is a change from previous versions of Paperclip, but is overall a
 safer choice for the default file store.
+
+This version of paperclip is based off Pat Shaughnessy's work found at:
+http://patshaughnessy.net/paperclip-database-storage.  This provides database
+storage,and most of the documentation has been updated to reflect that.  If 
+you're not using the database storage engine, you probably don't want to use this.
 
 You may also choose to store your files using Amazon's S3 service. You can find
 more information about S3 storage at the description for
